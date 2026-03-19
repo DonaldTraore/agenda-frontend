@@ -1,0 +1,37 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>{{ formatDate(selectedDate) }}</h2>
+      <button class="close-btn" (click)="onClose()">&times;</button>
+    </header>
+    
+    <div class="events-list">
+      @if (events.length === 0) {
+        <p class="no-events">Aucun événement ce jour</p>
+      } @else {
+        @for (event of events; track event.id) {
+          <div class="event-item" [style.border-left-color]="event.color">
+            <div class="event-title">{{ event.title }}</div>
+            <div class="event-time">
+              {{ formatTime(event.start_date) }} - {{ formatTime(event.end_date) }}
+            </div>
+            @if (event.description) {
+              <div class="event-description">{{ event.description }}</div>
+            }
+            @if (event.location) {
+              <div class="event-location">📍 {{ event.location }}</div>
+            }
+            <div class="event-actions">
+              <button class="edit-btn" (click)="onEditEvent(event)">Modifier</button>
+              <button class="delete-btn" (click)="onDeleteEvent(event)">Supprimer</button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    
+    <div class="modal-actions">
+      <button class="btn-primary" (click)="onNewEvent()">Nouvel événement</button>
+    </div>
+  </div>
+</div>

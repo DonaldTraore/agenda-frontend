@@ -1,0 +1,69 @@
+<div class="auth-container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <h2>Inscription</h2>
+    
+    <div class="form-group">
+      <label for="name">Nom</label>
+      <input 
+        id="name"
+        type="text" 
+        formControlName="name"
+        [class.error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+      >
+      @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+        <div class="error-message">Nom requis</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input 
+        id="email"
+        type="email" 
+        formControlName="email"
+        [class.error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+      >
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+        <div class="error-message">Email requis et valide</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input 
+        id="password"
+        type="password" 
+        formControlName="password"
+        [class.error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+      >
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <div class="error-message">Mot de passe requis (min. 8 caractères)</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password_confirmation">Confirmer le mot de passe</label>
+      <input 
+        id="password_confirmation"
+        type="password" 
+        formControlName="password_confirmation"
+        [class.error]="registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched"
+      >
+      @if (registerForm.get('password_confirmation')?.invalid && registerForm.get('password_confirmation')?.touched) {
+        <div class="error-message">Les mots de passe ne correspondent pas</div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid || loading" class="btn-primary">
+      {{ loading ? 'Inscription...' : "S'inscrire" }}
+    </button>
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+    
+    <p class="auth-link">
+      Déjà un compte ? <a routerLink="/auth/login">Se connecter</a>
+    </p>
+  </form>
+</div>

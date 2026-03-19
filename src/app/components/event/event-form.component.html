@@ -1,0 +1,128 @@
+<div class="modal-overlay" (click)="onCancel()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h2>{{ isEditing ? 'Modifier l\'événement' : 'Nouvel événement' }}</h2>
+      <button class="close-btn" (click)="onCancel()">&times;</button>
+    </header>
+
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="title">Titre *</label>
+        <input 
+          id="title"
+          type="text" 
+          formControlName="title"
+          [class.error]="eventForm.get('title')?.invalid && eventForm.get('title')?.touched"
+        >
+        @if (eventForm.get('title')?.invalid && eventForm.get('title')?.touched) {
+          <div class="error-message">Titre requis</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea 
+          id="description"
+          formControlName="description"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="start_date">Date de début *</label>
+          <input 
+            id="start_date"
+            type="datetime-local" 
+            formControlName="start_date"
+            [class.error]="eventForm.get('start_date')?.invalid && eventForm.get('start_date')?.touched"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="end_date">Date de fin *</label>
+          <input 
+            id="end_date"
+            type="datetime-local" 
+            formControlName="end_date"
+            [class.error]="eventForm.get('end_date')?.invalid && eventForm.get('end_date')?.touched"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" formControlName="is_all_day">
+          Toute la journée
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" formControlName="has_reminder">
+          Rappel par email
+        </label>
+      </div>
+
+      @if (eventForm.get('has_reminder')?.value) {
+        <div class="form-group">
+          <label for="reminder_minutes">Rappel avant (minutes)</label>
+          <select id="reminder_minutes" formControlName="reminder_minutes">
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">1 heure</option>
+            <option value="120">2 heures</option>
+            <option value="1440">1 jour</option>
+          </select>
+        </div>
+      }
+
+      <div class="form-group">
+        <label for="location">Lieu</label>
+        <input 
+          id="location"
+          type="text" 
+          formControlName="location"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="color">Couleur</label>
+        <input 
+          id="color"
+          type="color" 
+          formControlName="color"
+        >
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="onCancel()" class="btn-secondary">
+          Annuler
+        </button>
+        
+        @if (isEditing) {
+          <button 
+            type="button" 
+            (click)="onDelete()" 
+            class="btn-danger"
+            [disabled]="loading"
+          >
+            Supprimer
+          </button>
+        }
+        
+        <button 
+          type="submit" 
+          class="btn-primary"
+          [disabled]="eventForm.invalid || loading"
+        >
+          {{ loading ? 'Enregistrement...' : (isEditing ? 'Modifier' : 'Créer') }}
+        </button>
+      </div>
+    </form>
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+  </div>
+</div>

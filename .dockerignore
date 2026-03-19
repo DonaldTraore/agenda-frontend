@@ -1,0 +1,13 @@
+node_modules
+dist
+out-tsc
+.angular
+coverage
+*.log
+.DS_Store
+.git
+.gitignore
+README.md
+e2e
+npm-debug.log
+.nyc_output
